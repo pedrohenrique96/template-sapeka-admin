@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   display: flex;
@@ -23,4 +24,18 @@ export const NavigationHomeBarItem = styled(NavLink).attrs({
   color: #666;
   font-size: 18px;
   text-decoration: none;
+`;
+
+export const ButtonSignOut = styled.button`
+  padding: 15px 15px;
+  background: #ffd4d7;
+  border: 0;
+  border-radius: 4px;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+
+  &:hover {
+    background: ${darken(0.03, '#ffd4d7')};
+  }
 `;

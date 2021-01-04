@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { FiLogOut } from 'react-icons/fi';
 
-import { Container, NavigationHomeBar, NavigationHomeBarItem } from './styles';
+import {
+  Container,
+  NavigationHomeBar,
+  NavigationHomeBarItem,
+  ButtonSignOut,
+} from './styles';
+
+import { useAuth } from '../../hooks/auth';
 
 const Navigation: React.FC = () => {
+  const { signOut } = useAuth();
+  const handleSignOut = useCallback(() => {
+    signOut();
+  }, [signOut]);
+
   return (
     <Container>
       <NavigationHomeBar>
@@ -14,6 +27,9 @@ const Navigation: React.FC = () => {
           SubCategorias
         </NavigationHomeBarItem>
       </NavigationHomeBar>
+      <ButtonSignOut type="button" onClick={() => handleSignOut()}>
+        <FiLogOut color="#333" size={20} />
+      </ButtonSignOut>
     </Container>
   );
 };
