@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useCallback, useRef } from 'react';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as yup from 'yup';
 
@@ -10,7 +9,7 @@ import { useAuth } from '../../hooks/auth';
 // import getValidationErrors from '../../utils/getValidationErrors';
 // import { useToast } from '../../hooks/toast';
 
-import { Container, Box, Logo } from './styles';
+import { Container, Box, Logo, FormSubmit } from './styles';
 
 interface InputType {
   email: string;
@@ -21,7 +20,6 @@ const Authentication: FunctionComponent = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
-  // const { addToast } = useToast();
   const handleSubmit = useCallback(
     async (data: InputType) => {
       try {
@@ -43,12 +41,6 @@ const Authentication: FunctionComponent = () => {
           // const errors = getValidationErrors(err);
           // formRef.current?.setErrors(errors);
         }
-
-        // addToast({
-        //   type: 'error',
-        //   title: 'Erro na autenticação',
-        //   description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
-        // });
       }
     },
     [signIn],
@@ -58,7 +50,7 @@ const Authentication: FunctionComponent = () => {
       <Box>
         <Logo />
 
-        <Form onSubmit={handleSubmit}>
+        <FormSubmit onSubmit={handleSubmit}>
           <Label>Seu E-mail</Label>
           <Input type="email" name="email" placeholder="exemplo@email.com" />
 
@@ -66,7 +58,7 @@ const Authentication: FunctionComponent = () => {
           <Input type="password" name="password" placeholder="*********" />
 
           <Button>Entrar</Button>
-        </Form>
+        </FormSubmit>
       </Box>
     </Container>
   );

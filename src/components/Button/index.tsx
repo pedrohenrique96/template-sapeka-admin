@@ -1,12 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import { Container } from './styles';
 
-type buttonType = {
-  children: string;
-};
-
-const Button: FunctionComponent<buttonType> = ({ children }) => {
+const Button: React.FC = ({ children }) => {
   return <Container type="submit">{children}</Container>;
 };
 

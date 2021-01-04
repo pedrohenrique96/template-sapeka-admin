@@ -8,13 +8,17 @@ import { api } from '../../services/api';
 import { Container, Table } from './styles';
 
 interface Category {
-  id: number;
   name: string;
-  kidsOrManOrWoman: string;
 }
 
-const Categories: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+interface SubCategory {
+  id: number;
+  name: string;
+  category: Category;
+}
+
+const SubCategories: React.FC = () => {
+  const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
 
   const handleEdit = useCallback(async (id: number) => {
     console.log('edit', id); // eslint-disable-next-line
@@ -24,45 +28,46 @@ const Categories: React.FC = () => {
     console.log('Del', id); // eslint-disable-next-line
   }, []);
 
-  const getCategories = useCallback(async () => {
-    const response = await api.get('categories');
+  const getSubCategories = useCallback(async () => {
+    const response = await api.get('subcategories');
 
-    setCategories(response.data);
+    setSubCategories(response.data);
   }, []);
 
   useEffect(() => {
-    getCategories();
-  }, [getCategories]);
+    getSubCategories();
+  }, [getSubCategories]);
+
   return (
     <Container>
       <Navigation />
 
-      <TopPageInfos page="Categoria" />
+      <TopPageInfos page="SubCategoria" />
 
       <BoxPage>
         <Table>
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Masculino/Feminino/Kids</th>
+              <th>Categoria</th>
               <th>AÇÕES</th>
             </tr>
           </thead>
           <tbody>
-            {categories.map(category => (
-              <tr key={category.id}>
-                <td>{category.name}</td>
-                <td>{category.kidsOrManOrWoman}</td>
+            {subcategories.map(subcategory => (
+              <tr key={subcategory.id}>
+                <td>{subcategory.name}</td>
+                <td>{subcategory.category.name}</td>
                 <td>
                   <MdEdit
                     size={20}
                     color="#4d85ee"
-                    onClick={() => handleEdit(category.id)}
+                    onClick={() => handleEdit(subcategory.id)}
                   />
                   <MdDelete
                     size={20}
                     color="#de3b3b"
-                    onClick={() => handleDel(category.id)}
+                    onClick={() => handleDel(subcategory.id)}
                   />
                 </td>
               </tr>
@@ -74,4 +79,4 @@ const Categories: React.FC = () => {
   );
 };
 
-export default Categories;
+export default SubCategories;
