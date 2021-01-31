@@ -4,6 +4,7 @@ import TopPageInfos from '../../components/TopPageInfos';
 import BoxPage from '../../components/BoxPage';
 import Navigation from '../../components/Navigation';
 import { api } from '../../services/api';
+import { useContextProduct } from '../../hooks/product';
 
 import { Container, Table } from './styles';
 
@@ -22,14 +23,7 @@ interface Product {
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-
-  const handleEdit = useCallback(async (id: number) => {
-    console.log('edit', id); // eslint-disable-next-line
-  }, []);
-
-  const handleDel = useCallback(async (id: number) => {
-    console.log('Del', id); // eslint-disable-next-line
-  }, []);
+  const { del } = useContextProduct();
 
   const getProduts = useCallback(async () => {
     const response = await api.get('products');
@@ -41,11 +35,22 @@ const Products: React.FC = () => {
     getProduts();
   }, [getProduts]);
 
+  const handleEdit = useCallback(async (id: number) => {
+    console.log('edit', id); // eslint-disable-next-line
+  }, []);
+
+  const handleDel = useCallback(
+    async (id: number) => {
+      del(id).then(() => getProduts());
+    },
+    [del, getProduts],
+  );
+
   return (
     <Container>
       <Navigation />
 
-      <TopPageInfos page="Produto" />
+      <TopPageInfos page="Produto" link="/products/create" />
 
       <BoxPage>
         <Table>

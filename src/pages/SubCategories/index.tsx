@@ -7,6 +7,8 @@ import { api } from '../../services/api';
 
 import { Container, Table } from './styles';
 
+import { useContextCategory } from '../../hooks/subCategories';
+
 interface Category {
   name: string;
 }
@@ -20,13 +22,7 @@ interface SubCategory {
 const SubCategories: React.FC = () => {
   const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
 
-  const handleEdit = useCallback(async (id: number) => {
-    console.log('edit', id); // eslint-disable-next-line
-  }, []);
-
-  const handleDel = useCallback(async (id: number) => {
-    console.log('Del', id); // eslint-disable-next-line
-  }, []);
+  const { del } = useContextCategory();
 
   const getSubCategories = useCallback(async () => {
     const response = await api.get('subcategories');
@@ -38,11 +34,28 @@ const SubCategories: React.FC = () => {
     getSubCategories();
   }, [getSubCategories]);
 
+  const handleEdit = useCallback(async (id: number) => {
+    console.log('edit', id); // eslint-disable-next-line
+  }, []);
+
+  const handleDel = useCallback(
+    async (id: number) => {
+      del(id)
+        .then(() => {
+          getSubCategories();
+        })
+        .catch(() => {
+          console.log('Erro');
+        });
+    },
+    [del, getSubCategories],
+  );
+
   return (
     <Container>
       <Navigation />
 
-      <TopPageInfos page="SubCategoria" />
+      <TopPageInfos page="SubCategoria" link="/subcategories/create" />
 
       <BoxPage>
         <Table>

@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
+import { toast } from 'react-toastify';
 import { api } from '../services/api';
 
 interface User {
@@ -22,6 +23,7 @@ interface AuthContextData {
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -33,28 +35,32 @@ const AuthProvider: React.FC = ({ children }) => {
       api.defaults.headers.authorization = `Bearer ${token}`;
       return { user: JSON.parse(user), token };
     }
-
     return {} as AuthState;
   });
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    const response = await api.post('sessions', {
-      email,
-      password,
-    });
-    const { token, user } = response.data;
-    api.defaults.headers.authorization = `Bearer ${token}`;
+    try {
+      const response = await api.post('sessions', {
+        email,
+        password,
+      });
+      const { token, user } = response.data;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
-    localStorage.setItem('@sapeka:token', token);
-    localStorage.setItem('@sapeka:user', JSON.stringify(user));
+      localStorage.setItem('@sapeka:token', token);
+      localStorage.setItem('@sapeka:user', JSON.stringify(user));
 
-    setData({ user, token });
+      setData({ user, token });
+    } catch {
+      toast.error('Erro ao entrar verifique seus dados!');
+    }
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@sapeka:token');
     localStorage.removeItem('@sapeka:user');
 
+    toast.success(`Obrigado volte Sempre!`);
     setData({} as AuthState);
   }, []);
 

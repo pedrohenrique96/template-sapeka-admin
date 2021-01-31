@@ -4,6 +4,7 @@ import TopPageInfos from '../../components/TopPageInfos';
 import BoxPage from '../../components/BoxPage';
 import Navigation from '../../components/Navigation';
 import { api } from '../../services/api';
+import { useContextCategory } from '../../hooks/categories';
 
 import { Container, Table } from './styles';
 
@@ -16,13 +17,7 @@ interface Category {
 const Categories: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const handleEdit = useCallback(async (id: number) => {
-    console.log('edit', id); // eslint-disable-next-line
-  }, []);
-
-  const handleDel = useCallback(async (id: number) => {
-    console.log('Del', id); // eslint-disable-next-line
-  }, []);
+  const { del } = useContextCategory();
 
   const getCategories = useCallback(async () => {
     const response = await api.get('categories');
@@ -33,11 +28,29 @@ const Categories: React.FC = () => {
   useEffect(() => {
     getCategories();
   }, [getCategories]);
+
+  const handleEdit = useCallback(async (id: number) => {
+    console.log('edit', id); // eslint-disable-next-line
+  }, []);
+
+  const handleDel = useCallback(
+    async (id: number) => {
+      del(id)
+        .then(() => {
+          getCategories();
+        })
+        .catch(() => {
+          console.log('Erro');
+        });
+    },
+    [del, getCategories],
+  );
+
   return (
     <Container>
       <Navigation />
 
-      <TopPageInfos page="Categoria" />
+      <TopPageInfos page="Categoria" link="/categories/create" />
 
       <BoxPage>
         <Table>

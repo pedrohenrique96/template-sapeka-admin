@@ -27,6 +27,7 @@ export const FormSubmit = styled(Form)`
   flex-direction: column;
   margin: 0 auto;
 `;
+
 export const Logo = styled.img.attrs({
   src: logo,
 })`

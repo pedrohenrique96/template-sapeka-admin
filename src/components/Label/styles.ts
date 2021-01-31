@@ -5,4 +5,10 @@ export const Container = styled.span`
   color: #444444;
   text-align: left;
   font-weight: bold;
+
+  margin-bottom: 10px;
+
+  div + & {
+    margin-top: 10px;
+  }
 `;

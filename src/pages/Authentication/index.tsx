@@ -57,7 +57,7 @@ const Authentication: FunctionComponent = () => {
           <Label>Sua Senha</Label>
           <Input type="password" name="password" placeholder="*********" />
 
-          <Button>Entrar</Button>
+          <Button type="submit">Entrar</Button>
         </FormSubmit>
       </Box>
     </Container>

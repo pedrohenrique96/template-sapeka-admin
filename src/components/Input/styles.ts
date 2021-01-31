@@ -10,14 +10,14 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   border-radius: 10px;
-  margin: 5px 0 10px 0;
   padding: 10px 15px;
-  padding: 16px;
   width: 300px;
-  border: 2px solid ${darken(0.05, '#ffd4d7')};
+  border: 2px solid #ffd4d7;
   color: #666360;
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
+
   & + div {
     margin-top: 8px;
   }
@@ -30,7 +30,7 @@ export const Container = styled.div<ContainerProps>`
     props.isFocused &&
     css`
       color: #333;
-      border-color: #ffd4d7;
+      border-color: ${darken(0.03, '#ffd4d7')};
     `}
   ${props =>
     props.isFilled &&

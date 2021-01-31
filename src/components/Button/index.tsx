@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 
 import { Container } from './styles';
 
-const Button: React.FC = ({ children }) => {
-  return <Container type="submit">{children}</Container>;
+type ButtonType = ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button: React.FC<ButtonType> = ({ children }) => {
+  return <Container>{children}</Container>;
 };
 
 export default Button;
