@@ -23,6 +23,11 @@ export const Table = styled.table`
         font-size: 16px;
         color: #999;
         border-bottom: 1px solid #eee;
+
+        img {
+          max-height: 70px;
+          padding: 5px;
+        }
       }
     }
   }

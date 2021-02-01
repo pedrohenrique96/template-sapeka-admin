@@ -16,7 +16,7 @@ interface Product {
   id: number;
   name: string;
   description: string;
-  pathImage: string;
+  imageName: string;
   price: number;
   subcategory: SubCategories;
 }
@@ -27,7 +27,6 @@ const Products: React.FC = () => {
 
   const getProduts = useCallback(async () => {
     const response = await api.get('products');
-
     setProducts(response.data);
   }, []);
 
@@ -68,7 +67,10 @@ const Products: React.FC = () => {
             {products.map(product => (
               <tr key={product.id}>
                 <td>
-                  <img src={product.pathImage} alt="" srcSet="" />
+                  <img
+                    src={`http://localhost:3333/files/${product.imageName}`}
+                    alt={product.name}
+                  />
                 </td>
                 <td>{product.name}</td>
                 <td>{product.description}</td>
