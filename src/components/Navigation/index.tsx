@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { FiLogOut } from 'react-icons/fi';
 
 import {
@@ -14,6 +15,7 @@ const Navigation: React.FC = () => {
   const { signOut } = useAuth();
   const handleSignOut = useCallback(() => {
     signOut();
+    toast.success(`Obrigado volte Sempre!`);
   }, [signOut]);
 
   return (

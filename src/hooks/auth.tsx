@@ -51,8 +51,8 @@ const AuthProvider: React.FC = ({ children }) => {
       localStorage.setItem('@sapeka:user', JSON.stringify(user));
 
       setData({ user, token });
-    } catch {
-      toast.error('Erro ao entrar verifique seus dados!');
+    } catch (err) {
+      toast.error(`${err.response.data.message}`);
     }
   }, []);
 
@@ -60,7 +60,6 @@ const AuthProvider: React.FC = ({ children }) => {
     localStorage.removeItem('@sapeka:token');
     localStorage.removeItem('@sapeka:user');
 
-    toast.success(`Obrigado volte Sempre!`);
     setData({} as AuthState);
   }, []);
 

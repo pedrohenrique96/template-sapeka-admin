@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { FormHandles } from '@unform/core';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import Box from '../../components/BoxPage';
 import Input from '../../components/Input';
 import Label from '../../components/Label';
@@ -35,6 +36,11 @@ const AddAndEditCategory: React.FC = () => {
 
   const getCategories = useCallback(async () => {
     const response = await api.get('categories');
+
+    if (!response.data.length) {
+      toast.warn('Para cadastrar uma subcategoria tem que haver uma categoria');
+      return;
+    }
 
     setCategories(response.data);
   }, []);

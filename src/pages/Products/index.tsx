@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../hooks/auth';
 import TopPageInfos from '../../components/TopPageInfos';
 import BoxPage from '../../components/BoxPage';
 import Navigation from '../../components/Navigation';
@@ -24,11 +26,18 @@ interface Product {
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const { del } = useContextProduct();
-
+  const { signOut } = useAuth();
   const getProduts = useCallback(async () => {
-    const response = await api.get('products');
-    setProducts(response.data);
-  }, []);
+    try {
+      const response = await api.get('products');
+      setProducts(response.data);
+    } catch (err) {
+      if (err.response.status === 400) {
+        toast.warn('Token inválido faça seu login novamente.');
+        signOut();
+      }
+    }
+  }, [signOut]);
 
   useEffect(() => {
     getProduts();
